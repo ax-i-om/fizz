@@ -1,4 +1,4 @@
-import os
+from os import getenv, system
 from json import dump, load
 from textwrap import fill
 
@@ -31,18 +31,18 @@ data = read()
 
 sectIndex = {}
 
-path = os.getenv("HOME")
+path = getenv("HOME")
 
 
 def cleanup():
-    os.system("clear")
+    system("/usr/bin/clear")
     global data, path
     del data
     del path
 
 
 def header():
-    os.system("clear")
+    system("/usr/bin/clear")
     print("───────────────────────────────────────────────")
     print(BOLD + "      ____________________" + NC)
     print(BOLD + "     / ____/  _/__  /__  /" + CYAN + "\tcopyright (c)" + NC)
@@ -220,14 +220,14 @@ def mainMenu():
     print("  " + ent(GREEN, 2) + " - configure\t" + ent(RED, "X") + " - quit")
     print("\n───────────────────────────────────────────────")
     answer = str(input("\n >> ")).lower()
-    if answer == "?" or answer == "help":
+    if answer in ("?", "help"):
         help("help", "welcome to fizz, the pop!_os desktop provisioning/configuration wizard. from the main menu, enter 2 to begin configuring your installation. if you already have a valid configuration file (config.json) within the fizz directory, enter 1 to begin.", "fizzmainmenu")
-    elif answer == "x" or answer == "quit" or answer == "exit":
+    elif answer in ("x", "quit", "exit"):
         cleanup()
         return
-    elif answer == "1" or answer == "generate":
+    elif answer in ("1", "generate", "gen"):
         generate()
-    elif answer == "2" or answer == "configure" or answer == "config" or answer == "conf":
+    elif answer in ("2", "configure", "config", "conf"):
         confMenu()
     else:
         mainMenu()
@@ -239,11 +239,11 @@ def confMenu():
     getSections()
     print("\n───────────────────────────────────────────────")
     answer = str(input("\n >> ")).lower()
-    if answer == "?" or answer == "help":
+    if answer in ("?", "help"):
         help("Configuration", "Config help", "fizzconfigmenu")
-    elif answer == "b" or answer == "back":
+    elif answer in ("b", "back"):
         mainMenu()
-    elif answer == "x" or answer == "quit" or answer == "exit":
+    elif answer in ("x", "quit", "exit"):
         cleanup()
         return
     elif answer.isnumeric() and (0 < int(answer) <= len(sectIndex)):
@@ -265,11 +265,11 @@ def optMenu(sect):
     getOptions(sect)
     print("\n───────────────────────────────────────────────")
     answer = str(input("\n >> ")).lower()
-    if answer == "?" or answer == "help":
+    if answer in ("?", "help"):
         print("help")
-    elif answer == "b" or answer == "back":
+    elif answer in ("b", "back"):
         confMenu()
-    elif answer == "x" or answer == "quit" or answer == "exit":
+    elif answer in ("x", "quit", "exit"):
         cleanup()
         return
     else:
