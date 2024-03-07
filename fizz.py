@@ -1,6 +1,7 @@
-from os import getenv, system
+from os import system
 from json import dump, load
 from textwrap import fill
+from getpass import getpass
 
 # create text wrap function
 # dry
@@ -16,11 +17,12 @@ CYAN = '\033[96m'
 BLUE = '\033[94m'
 
 
-def embold(input):
-    return BOLD + input + NC
+def embold(strIn):
+    return BOLD + strIn + NC
 
 
 def read():
+    global data
     f = open("./config.json")
     data = load(f)
     f.close()
@@ -31,14 +33,11 @@ data = read()
 
 sectIndex = {}
 
-path = getenv("HOME")
-
 
 def cleanup():
     system("/usr/bin/clear")
-    global data, path
+    global data
     del data
-    del path
 
 
 def header():
@@ -48,19 +47,18 @@ def header():
     print(BOLD + "     / ____/  _/__  /__  /" + CYAN + "\tcopyright (c)" + NC)
     print(BOLD + "    / /_   / /   / /  / / " + CYAN + "\t2024 axiom" + NC)
     print(BOLD + "   / __/ _/ /   / /__/ /__" + RED + "\tno warranty" + NC)
-    print(BOLD + "  /_/   /___/  /____/____/" + MAGENTA + "\tv0.1.0" + NC)
+    print(BOLD + "  /_/   /___/  /____/____/" + MAGENTA + "\tv0.1.3" + NC)
     print("\n───────────────────────────────────────────────\n")
 
 
 def write():
-    global data
     f = open("./config.json", 'w')
     dump(data, f, indent=4)
     f.close()
 
 
-def ent(color, input):
-    return BOLD + "[" + color + str(input) + NC + BOLD + "]" + NC
+def ent(color, strIn):
+    return BOLD + "[" + color + str(strIn) + NC + BOLD + "]" + NC
 
 
 def opt(color, name, status):
@@ -75,44 +73,41 @@ def generate():
 
     data = read()
 
-    fizzOut = open("fizz.sh", "a")
-
-    fizzOut.write("NC='\\033[0m'\n")
-    fizzOut.write("RED='\\033[1;31m'\n")
-    fizzOut.write("GREEN='\\033[1;32m'\n")
-    fizzOut.write("YELLOW='\\033[1;33m'\n")
-    fizzOut.write("BLUE='\\033[1;34m'\n")
-    fizzOut.write("PURPLE='\\033[1;35m'\n")
-    fizzOut.write("CYAN='\\033[1;36m'\n")
-    fizzOut.write("\n")
-    fizzOut.write("NRERR=87\n")
-    fizzOut.write("\n")
-    fizzOut.write("if ! $(sudo -l &> /dev/null); then\n")
-    fizzOut.write("\techo -e \"${RED}[!]${NC} exit (${NRERR}): elevated privileges required\"\n")
-    fizzOut.write("\texit $NRERR\n")
-    fizzOut.write("fi\n")
-    fizzOut.write("\n")
-    fizzOut.write("echo -e \"───────────────────────────────────────────────\n")
-    fizzOut.write("      ____________________\n")
-    fizzOut.write("     / ____/  _/__  /__  /	${CYAN}copyright (c)${NC}\n")
-    fizzOut.write("    / /_   / /   / /  / / 	${CYAN}2024 axiom${NC}\n")
-    fizzOut.write("   / __/ _/ /   / /__/ /__	${RED}no warranty${NC}\n")
-    fizzOut.write("  /_/   /___/  /____/____/	${PURPLE}v0.1.0${NC}\n")
-    fizzOut.write("\n")
-    fizzOut.write("───────────────────────────────────────────────\"\n")
-    fizzOut.write("\n")
-    fizzOut.write("sudo apt-get -y update > /dev/null")
-    fizzOut.write("\n")
-
-    for key in data["data"][1]:
-        count = 0
-        for _ in data["data"][1][key]:
-            if data["data"][1][key][count]["active"]:
-                fizzOut.write("echo -e \"${GREEN}[+]${NC} Installing: ${BLUE}" + data["data"][1][key][count]["name"] + ":${NC}\"\n")
-                for cmd in data["data"][1][key][count]["exec"]:
-                    fizzOut.write(cmd + "\n")
-            count += 1
-    fizzOut.close()
+    with open('out.fizz', 'a') as fizzOut:
+        fizzOut.write("NC='\\033[0m'\n")
+        fizzOut.write("RED='\\033[1;31m'\n")
+        fizzOut.write("GREEN='\\033[1;32m'\n")
+        fizzOut.write("YELLOW='\\033[1;33m'\n")
+        fizzOut.write("BLUE='\\033[1;34m'\n")
+        fizzOut.write("PURPLE='\\033[1;35m'\n")
+        fizzOut.write("CYAN='\\033[1;36m'\n")
+        fizzOut.write("\n")
+        fizzOut.write("NRERR=87\n")
+        fizzOut.write("\n")
+        fizzOut.write("if ! $(sudo -l &> /dev/null); then\n")
+        fizzOut.write("\techo -e \"${RED}[!]${NC} exit (${NRERR}): elevated privileges required\"\n")
+        fizzOut.write("\texit $NRERR\n")
+        fizzOut.write("fi\n")
+        fizzOut.write("\n")
+        fizzOut.write("echo -e \"───────────────────────────────────────────────\n")
+        fizzOut.write("      ____________________\n")
+        fizzOut.write("     / ____/  _/__  /__  /	${CYAN}copyright (c)${NC}\n")
+        fizzOut.write("    / /_   / /   / /  / / 	${CYAN}2024 axiom${NC}\n")
+        fizzOut.write("   / __/ _/ /   / /__/ /__	${RED}no warranty${NC}\n")
+        fizzOut.write("  /_/   /___/  /____/____/	${PURPLE}v0.1.3${NC}\n")
+        fizzOut.write("\n")
+        fizzOut.write("───────────────────────────────────────────────\"\n")
+        fizzOut.write("\n")
+        fizzOut.write("sudo apt-get -y update > /dev/null")
+        fizzOut.write("\n")
+        for key in data["data"][1]:
+            count = 0
+            for _ in data["data"][1][key]:
+                if data["data"][1][key][count]["active"]:
+                    fizzOut.write("echo -e \"${GREEN}[+]${NC} Installing: ${BLUE}" + data["data"][1][key][count]["name"] + ":${NC}\"\n")
+                    for cmd in data["data"][1][key][count]["exec"]:
+                        fizzOut.write(cmd + "\n")
+                count += 1
 
 
 def getOptions(section):
@@ -147,7 +142,6 @@ def getOptions(section):
 
 def getSections():
     global data
-    global sectIndex
 
     data = read()
     dataRange = len(data["data"][1])
@@ -199,7 +193,7 @@ def getSections():
         count += 1
 
 
-def help(name, desc, referrer):
+def helpMenu(name, desc, referrer):
     header()
     print("  " + ent(BLUE, "?") + "\t" + embold(name))
     print("\n", fill(desc, 38, initial_indent=("\t"), subsequent_indent="\t"))
@@ -221,7 +215,7 @@ def mainMenu():
     print("\n───────────────────────────────────────────────")
     answer = str(input("\n >> ")).lower()
     if answer in ("?", "help"):
-        help("help", "welcome to fizz, the pop!_os desktop provisioning/configuration wizard. from the main menu, enter 2 to begin configuring your installation. if you already have a valid configuration file (config.json) within the fizz directory, enter 1 to begin.", "fizzmainmenu")
+        helpMenu("help", "welcome to fizz, the pop!_os desktop provisioning/configuration wizard. from the main menu, enter 2 to begin configuring your installation. if you already have a valid configuration file (config.json) within the fizz directory, enter 1 to begin.", "fizzmainmenu")
     elif answer in ("x", "quit", "exit"):
         cleanup()
         return
@@ -240,7 +234,7 @@ def confMenu():
     print("\n───────────────────────────────────────────────")
     answer = str(input("\n >> ")).lower()
     if answer in ("?", "help"):
-        help("Configuration", "Config help", "fizzconfigmenu")
+        helpMenu("Configuration", "Config help", "fizzconfigmenu")
     elif answer in ("b", "back"):
         mainMenu()
     elif answer in ("x", "quit", "exit"):
@@ -249,12 +243,9 @@ def confMenu():
     elif answer.isnumeric() and (0 < int(answer) <= len(sectIndex)):
         optMenu(sectIndex.get(int(answer)))
     elif answer.isalpha():
-        try:
-            id = list(sectIndex.keys())[list(sectIndex.values()).index(answer)]
-            if 0 < id <= 8:
-                optMenu(sectIndex.get(int(id)))
-        except:
-            confMenu()
+        id = list(sectIndex.keys())[list(sectIndex.values()).index(answer)]
+        if 0 < id <= 8:
+            optMenu(sectIndex.get(int(id)))
     else:
         confMenu()
 
@@ -283,7 +274,8 @@ def optMenu(sect):
             elif answer == "?" + data["data"][1][sect][count]["name"]:
                 tempCount = count
                 count = dataRange  # prevent further iteration
-                help(data["data"][1][sect][tempCount]["name"], data["data"][1][sect][tempCount]["desc"], sect)
+                helpMenu(data["data"][1][sect][tempCount]["name"], data["data"][1][sect][tempCount]["desc"], sect)
+                return
             count += 1
         optMenu(sect)
 
