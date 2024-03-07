@@ -1,0 +1,257 @@
+{
+    "data": [
+        [
+            "py=python3",
+            "python=python3",
+            "clr=clear",
+            "cls=clear"
+        ],
+        {
+            "browsing": [
+                {
+                    "name": "librewolf",
+                    "active": false,
+                    "desc": "an privacy-focused fork of firefox that prioritizes privacy, security and user freedom.",
+                    "exec": [
+                        "sudo apt-get -y update > /dev/null",
+                        "sudo apt-get -y install wget gnupg lsb-release apt-transport-https ca-certificates > /dev/null",
+                        "distro=$(if echo \" una bookworm vanessa focal jammy bullseye vera uma \" | grep -q \" $(lsb_release -sc) \"; then lsb_release -sc; else echo focal; fi)",
+                        "wget -q -O- https://deb.librewolf.net/keyring.gpg | sudo gpg --dearmor --yes -o /usr/share/keyrings/librewolf.gpg",
+                        "sudo tee /etc/apt/sources.list.d/librewolf.sources << EOF > /dev/null",
+                        "Types: deb",
+                        "URIs: https://deb.librewolf.net",
+                        "Suites: $distro",
+                        "Components: main",
+                        "Architectures: amd64",
+                        "Signed-By: /usr/share/keyrings/librewolf.gpg",
+                        "EOF",
+                        "sudo apt-get -y update > /dev/null",
+                        "sudo apt-get -y install librewolf > /dev/null"
+                    ]
+                },
+                {
+                    "name": "mullvad-browser",
+                    "active": false,
+                    "desc": "a privacy-focused web browser developed by mullvad vpn and the tor project that minimizes tracking and fingerprinting.",
+                    "exec": [
+                        "wget -q -O mvbrowser-latest.tar.xz https://mullvad.net/en/download/browser/linux-x86_64/latest",
+                        "tar -xf mvbrowser-latest.tar.xz",
+                        "sudo rm mvbrowser-latest.tar.xz",
+                        "mv ./mullvad-browser /home/${USER}/.local/bin/mullvad-browser",
+                        "echo \"[Desktop Entry]",
+                        "Type=Application",
+                        "Name=Mullvad Browser",
+                        "GenericName=Web Browser",
+                        "Comment=Mullvad Browser is +1 for privacy and -1 for mass surveillance",
+                        "Categories=Network;WebBrowser;Security;",
+                        "Exec=sh -c '/home/${USER}/.local/bin/mullvad-browser/Browser/start-mullvad-browser  --detach' dummy %k ",
+                        "Icon=/home/${USER}/.local/bin/mullvad-browser/Browser/browser/chrome/icons/default/default128.png",
+                        "StartupWMClass=Mullvad Browser\" > /home/${USER}/.local/share/applications/mullvadbrowser.desktop"
+                    ]
+                }
+            ],
+            "communications": [
+                {
+                    "name": "signal",
+                    "active": false,
+                    "desc": "",
+                    "exec": [
+                        "wget -q -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg",
+                        "cat signal-desktop-keyring.gpg | sudo tee /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null",
+                        "echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' | sudo tee /etc/apt/sources.list.d/signal-xenial.list > /dev/null",
+                        "sudo apt-get -y update > /dev/null && sudo apt-get -y install signal-desktop > /dev/null"
+                    ]
+                },
+                {
+                    "name": "discord",
+                    "active": false,
+                    "desc": "",
+                    "exec": [
+                        "wget -qO discord.deb \"https://discord.com/api/download?platform=linux&format=deb\"",
+                        "sudo apt-get -y install ./discord.deb > /dev/null",
+                        "rm ./discord.deb"
+                    ]
+                }
+            ],
+            "development": [
+                {
+                    "name": "vscodium",
+                    "active": false,
+                    "desc": "",
+                    "exec": [
+                        "wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg \\",
+                        "| sudo gpg --dearmor -o /usr/share/keyrings/vscodium-archive-keyring.gpg",
+                        "echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https://download.vscodium.com/debs vscodium main' \\",
+                        "| sudo tee /etc/apt/sources.list.d/vscodium.list > /dev/null",
+                        "sudo apt-get -y update > /dev/null && sudo apt-get -y install codium > /dev/null"
+                    ]
+                },
+                {
+                    "name": "python3-pip",
+                    "active": false,
+                    "desc": "",
+                    "exec": [
+                        "sudo apt-get -y install python3-pip > /dev/null"
+                    ]
+                }
+            ],
+            "gaming": [
+                {
+                    "name": "steam",
+                    "active": false,
+                    "desc": "",
+                    "exec": [
+                        "sudo apt-get -y install steam &> /dev/null"
+                    ]
+                }
+            ],
+            "privacy": [
+                {
+                    "name": "exifcleaner",
+                    "active": true,
+                    "desc": "",
+                    "exec": [
+                        "wget -q -O exifcleaner_3.6.0_amd64.deb https://github.com/szTheory/exifcleaner/releases/download/v3.6.0/exifcleaner_3.6.0_amd64.deb",
+                        "sudo apt-get -y install ./exifcleaner_3.6.0_amd64.deb > /dev/null",
+                        "sudo rm exifcleaner_3.6.0_amd64.deb"
+                    ]
+                },
+                {
+                    "name": "mat2",
+                    "active": false,
+                    "desc": "",
+                    "exec": [
+                        "sudo apt-get -y install mat2 > /dev/null"
+                    ]
+                },
+                {
+                    "name": "mullvad-vpn",
+                    "active": false,
+                    "desc": "",
+                    "exec": [
+                        "wget -q -O mullvad-latest.deb https://mullvad.net/en/download/app/deb/latest",
+                        "sudo apt-get -y install ./mullvad-latest.deb > /dev/null",
+                        "sudo rm mullvad-latest.deb"
+                    ]
+                },
+                {
+                    "name": "veracrypt",
+                    "active": false,
+                    "desc": "",
+                    "exec": [
+                        "wget -q https://launchpad.net/veracrypt/trunk/1.26.7/+download/veracrypt-1.26.7-Debian-11-amd64.deb",
+                        "sudo apt-get -y install ./veracrypt-1.26.7-Debian-11-amd64.deb > /dev/null",
+                        "sudo rm veracrypt-1.26.7-Debian-11-amd64.deb"
+                    ]
+                },
+                {
+                    "name": "picocrypt",
+                    "active": false,
+                    "desc": "",
+                    "exec": [
+                        "wget -q https://github.com/HACKERALERT/Picocrypt/releases/download/1.33/Picocrypt.AppImage",
+                        "wget -q https://raw.githubusercontent.com/HACKERALERT/Picocrypt/713f6c10dfbb69fe5251ab0186bcfc446bc4633a/images/key.svg",
+                        "mkdir /home/${USER}/.local/bin/picocrypt",
+                        "mv Picocrypt.AppImage /home/${USER}/.local/bin/picocrypt",
+                        "mv key.svg /home/${USER}/.local/bin/picocrypt",
+                        "chmod +x /home/${USER}/.local/bin/picocrypt/Picocrypt.AppImage",
+                        "echo \"[Desktop Entry]",
+                        "Type=Application",
+                        "Name=Picocrypt",
+                        "Exec=/home/${USER}/.local/bin/picocrypt/Picocrypt.AppImage",
+                        "Icon=/home/${USER}/.local/bin/picocrypt/key.svg\" > /home/${USER}/.local/share/applications/picocrypt.desktop"
+                    ]
+                }
+            ],
+            "media": [
+                {
+                    "name": "flowblade",
+                    "active": false,
+                    "desc": "",
+                    "exec": [
+                        "sudo apt-get -y install flowblade &> /dev/null"
+                    ]
+                },
+                {
+                    "name": "obs",
+                    "active": false,
+                    "desc": "",
+                    "exec": [
+                        "sudo add-apt-repository -y ppa:obsproject/obs-studio > /dev/null",
+                        "sudo apt-get -y install obs-studio > /dev/null"
+                    ]
+                },
+                {
+                    "name": "vlc",
+                    "active": false,
+                    "desc": "",
+                    "exec": [
+                        "sudo apt-get -y install vlc > /dev/null"
+                    ]
+                }
+            ],
+            "miscellaneous": [
+                {
+                    "name": "libheif-examples",
+                    "active": false,
+                    "desc": "",
+                    "exec": [
+                        "sudo apt-get -y install libheif-examples > /dev/null"
+                    ]
+                },
+                {
+                    "name": "v4l2loopback-dkms",
+                    "active": false,
+                    "desc": "",
+                    "exec": [
+                        "sudo apt-get -y install v4l2loopback-dkms > /dev/null"
+                    ]
+                },
+                {
+                    "name": "fdupes",
+                    "active": false,
+                    "desc": "",
+                    "exec": [
+                        "sudo apt-get -y install fdupes > /dev/null"
+                    ]
+                },
+                {
+                    "name": "ffmpeg",
+                    "active": false,
+                    "desc": "",
+                    "exec": [
+                        "sudo apt-get -y install ffmpeg > /dev/null"
+                    ]
+                },
+                {
+                    "name": "youtube-dl",
+                    "active": false,
+                    "desc": "",
+                    "exec": [
+                        "sudo apt-get -y install youtube-dl > /dev/null"
+                    ]
+                }
+            ],
+            "productivity": [
+                {
+                    "name": "obsidian",
+                    "active": false,
+                    "desc": "",
+                    "exec": [
+                        "flatpak install -y --noninteractive flathub md.obsidian.Obsidian > /dev/null"
+                    ]
+                }
+            ],
+            "virtualization": [
+                {
+                    "name": "virt-manager",
+                    "active": false,
+                    "desc": "",
+                    "exec": [
+                        "sudo apt-get -y install libvirt-daemon-system libvirt-clients qemu-kvm qemu-utils virt-manager ovmf &> /dev/null"
+                    ]
+                }
+            ]
+        }
+    ]
+}
