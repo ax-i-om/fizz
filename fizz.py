@@ -47,7 +47,7 @@ def header():
     print(BOLD + "     / ____/  _/__  /__  /" + CYAN + "\tcopyright (c)" + NC)
     print(BOLD + "    / /_   / /   / /  / / " + CYAN + "\t2024 axiom" + NC)
     print(BOLD + "   / __/ _/ /   / /__/ /__" + RED + "\tno warranty" + NC)
-    print(BOLD + "  /_/   /___/  /____/____/" + MAGENTA + "\tv0.1.6" + NC)
+    print(BOLD + "  /_/   /___/  /____/____/" + MAGENTA + "\tv0.1.7" + NC)
     print("\n───────────────────────────────────────────────\n")
 
 
@@ -96,7 +96,7 @@ def generate():
         fizzOut.write("     / ____/  _/__  /__  /	${CYAN}copyright (c)${NC}\n")
         fizzOut.write("    / /_   / /   / /  / / 	${CYAN}2024 axiom${NC}\n")
         fizzOut.write("   / __/ _/ /   / /__/ /__	${RED}no warranty${NC}\n")
-        fizzOut.write("  /_/   /___/  /____/____/	${PURPLE}v0.1.6${NC}\n")
+        fizzOut.write("  /_/   /___/  /____/____/	${PURPLE}v0.1.7${NC}\n")
         fizzOut.write("\n")
         fizzOut.write("───────────────────────────────────────────────\"\n")
         fizzOut.write("\n")
@@ -109,7 +109,7 @@ def generate():
                     fizzOut.write(
                         "echo -e \"${GREEN}[+]${NC} " +
                         "Installing: ${BLUE}" +
-                        data["data"][1][key][count]["name"] + 
+                        data["data"][1][key][count]["name"] +
                         ":${NC}\"\n")
                     for cmd in data["data"][1][key][count]["exec"]:
                         fizzOut.write(cmd + "\n")
@@ -223,11 +223,13 @@ def mainMenu():
     print("\n───────────────────────────────────────────────")
     answer = str(input("\n >> ")).lower()
     if answer in ("?", "help"):
-        helpMenu("help", "welcome to fizz, the pop!_os desktop provisioning" +
-                "/configuration wizard. from the main menu, enter 2 to begin " +
-                "configuring your installation. if you already have a valid " +
-                "configuration file (config.json) within the fizz directory" +
-                ", enter 1 to begin.", "fizzmainmenu")
+        helpMenu(
+            "help",
+            "welcome to fizz, the pop!_os desktop provisioning" +
+            "/configuration wizard. from the main menu, enter 2 to begin " +
+            "configuring your installation. if you already have a valid " +
+            "configuration file (config.json) within the fizz directory" +
+            ", enter 1 to begin.", "fizzmainmenu")
     elif answer in ("x", "quit", "exit"):
         cleanup()
         return

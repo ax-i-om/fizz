@@ -2,7 +2,7 @@
     <a><img src="./images/icon.png" width=200 height="200"></a>
     <h1 align="center">Fizz</h1>
     <p align="center">
-        <a><img src="https://img.shields.io/badge/version-0.1.6-blue.svg" alt="v0.1.6"></a>
+        <a><img src="https://img.shields.io/badge/version-0.1.7-blue.svg" alt="v0.1.7"></a>
         <a href="https://app.deepsource.com/gh/ax-i-om/fizz/" target="_blank"><img alt="DeepSource" title="DeepSource" src="https://app.deepsource.com/gh/ax-i-om/fizz.svg/?label=active+issues&show_trend=true"/></a><br>
         Pop!_OS Configuration Wizard<br>
     </p>
