@@ -47,7 +47,7 @@ def header():
     print(BOLD + "     / ____/  _/__  /__  /" + CYAN + "\tcopyright (c)" + NC)
     print(BOLD + "    / /_   / /   / /  / / " + CYAN + "\t2024 axiom" + NC)
     print(BOLD + "   / __/ _/ /   / /__/ /__" + RED + "\tno warranty" + NC)
-    print(BOLD + "  /_/   /___/  /____/____/" + MAGENTA + "\tv0.1.4" + NC)
+    print(BOLD + "  /_/   /___/  /____/____/" + MAGENTA + "\tv0.1.5" + NC)
     print("\n───────────────────────────────────────────────\n")
 
 
@@ -95,7 +95,7 @@ def generate():
         fizzOut.write("     / ____/  _/__  /__  /	${CYAN}copyright (c)${NC}\n")
         fizzOut.write("    / /_   / /   / /  / / 	${CYAN}2024 axiom${NC}\n")
         fizzOut.write("   / __/ _/ /   / /__/ /__	${RED}no warranty${NC}\n")
-        fizzOut.write("  /_/   /___/  /____/____/	${PURPLE}v0.1.4${NC}\n")
+        fizzOut.write("  /_/   /___/  /____/____/	${PURPLE}v0.1.5${NC}\n")
         fizzOut.write("\n")
         fizzOut.write("───────────────────────────────────────────────\"\n")
         fizzOut.write("\n")
@@ -106,7 +106,7 @@ def generate():
             for _ in data["data"][1][key]:
                 if data["data"][1][key][count]["active"]:
                     fizzOut.write("echo -e \"${GREEN}[+]${NC} " +
-                        "Installing: ${BLUE}" + 
+                        "Installing: ${BLUE}" +
                         data["data"][1][key][count]["name"]
                          + ":${NC}\"\n")
                     for cmd in data["data"][1][key][count]["exec"]:
@@ -125,7 +125,8 @@ def getOptions(section):
         temp = ""
         tabbing = "\t"
         if count < dataRange:
-            temp = "  " + opt(GREEN, selectedData[count]["name"], \
+            temp = "  " + opt(
+                GREEN, selectedData[count]["name"], 
                 selectedData[count]["active"])
             if len(selectedData[count]["name"]) <= 7:
                 tabbing += "\t"
@@ -284,8 +285,10 @@ def optMenu(sect):
             if answer == "?" + data["data"][1][sect][count]["name"]:
                 tempCount = count
                 count = dataRange  # prevent further iteration
-                helpMenu(data["data"][1][sect][tempCount]["name"], \
-                    data["data"][1][sect][tempCount]["desc"], sect)
+                helpMenu(
+                    data["data"][1][sect][tempCount]["name"],
+                    data["data"][1][sect][tempCount]["desc"], 
+                    sect)
                 return
             count += 1
         optMenu(sect)
