@@ -47,7 +47,7 @@ def header():
     print(BOLD + "     / ____/  _/__  /__  /" + CYAN + "\tcopyright (c)" + NC)
     print(BOLD + "    / /_   / /   / /  / / " + CYAN + "\t2024 axiom" + NC)
     print(BOLD + "   / __/ _/ /   / /__/ /__" + RED + "\tno warranty" + NC)
-    print(BOLD + "  /_/   /___/  /____/____/" + MAGENTA + "\tv0.1.5" + NC)
+    print(BOLD + "  /_/   /___/  /____/____/" + MAGENTA + "\tv0.1.6" + NC)
     print("\n───────────────────────────────────────────────\n")
 
 
@@ -85,7 +85,8 @@ def generate():
         fizzOut.write("NRERR=87\n")
         fizzOut.write("\n")
         fizzOut.write("if ! $(sudo -l &> /dev/null); then\n")
-        fizzOut.write("\techo -e \"${RED}[!]${NC} exit (${NRERR}): " +
+        fizzOut.write(
+            "\techo -e \"${RED}[!]${NC} exit (${NRERR}): " +
             "elevated privileges required\"\n")
         fizzOut.write("\texit $NRERR\n")
         fizzOut.write("fi\n")
@@ -95,7 +96,7 @@ def generate():
         fizzOut.write("     / ____/  _/__  /__  /	${CYAN}copyright (c)${NC}\n")
         fizzOut.write("    / /_   / /   / /  / / 	${CYAN}2024 axiom${NC}\n")
         fizzOut.write("   / __/ _/ /   / /__/ /__	${RED}no warranty${NC}\n")
-        fizzOut.write("  /_/   /___/  /____/____/	${PURPLE}v0.1.5${NC}\n")
+        fizzOut.write("  /_/   /___/  /____/____/	${PURPLE}v0.1.6${NC}\n")
         fizzOut.write("\n")
         fizzOut.write("───────────────────────────────────────────────\"\n")
         fizzOut.write("\n")
@@ -105,10 +106,11 @@ def generate():
             count = 0
             for _ in data["data"][1][key]:
                 if data["data"][1][key][count]["active"]:
-                    fizzOut.write("echo -e \"${GREEN}[+]${NC} " +
+                    fizzOut.write(
+                        "echo -e \"${GREEN}[+]${NC} " +
                         "Installing: ${BLUE}" +
-                        data["data"][1][key][count]["name"]
-                         + ":${NC}\"\n")
+                        data["data"][1][key][count]["name"] + 
+                        ":${NC}\"\n")
                     for cmd in data["data"][1][key][count]["exec"]:
                         fizzOut.write(cmd + "\n")
                 count += 1
@@ -126,7 +128,7 @@ def getOptions(section):
         tabbing = "\t"
         if count < dataRange:
             temp = "  " + opt(
-                GREEN, selectedData[count]["name"], 
+                GREEN, selectedData[count]["name"],
                 selectedData[count]["active"])
             if len(selectedData[count]["name"]) <= 7:
                 tabbing += "\t"
@@ -222,10 +224,10 @@ def mainMenu():
     answer = str(input("\n >> ")).lower()
     if answer in ("?", "help"):
         helpMenu("help", "welcome to fizz, the pop!_os desktop provisioning" +
-            "/configuration wizard. from the main menu, enter 2 to begin " +
-            "configuring your installation. if you already have a valid " +
-            "configuration file (config.json) within the fizz directory" +
-            ", enter 1 to begin.", "fizzmainmenu")
+                "/configuration wizard. from the main menu, enter 2 to begin " +
+                "configuring your installation. if you already have a valid " +
+                "configuration file (config.json) within the fizz directory" +
+                ", enter 1 to begin.", "fizzmainmenu")
     elif answer in ("x", "quit", "exit"):
         cleanup()
         return
@@ -287,7 +289,7 @@ def optMenu(sect):
                 count = dataRange  # prevent further iteration
                 helpMenu(
                     data["data"][1][sect][tempCount]["name"],
-                    data["data"][1][sect][tempCount]["desc"], 
+                    data["data"][1][sect][tempCount]["desc"],
                     sect)
                 return
             count += 1
