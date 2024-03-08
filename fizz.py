@@ -47,7 +47,7 @@ def header():
     print(BOLD + "     / ____/  _/__  /__  /" + CYAN + "\tcopyright (c)" + NC)
     print(BOLD + "    / /_   / /   / /  / / " + CYAN + "\t2024 axiom" + NC)
     print(BOLD + "   / __/ _/ /   / /__/ /__" + RED + "\tno warranty" + NC)
-    print(BOLD + "  /_/   /___/  /____/____/" + MAGENTA + "\tv0.1.3" + NC)
+    print(BOLD + "  /_/   /___/  /____/____/" + MAGENTA + "\tv0.1.4" + NC)
     print("\n───────────────────────────────────────────────\n")
 
 
@@ -73,7 +73,7 @@ def generate():
 
     data = read()
 
-    with open('out.fizz', 'a') as fizzOut:
+    with open('fizz.sh', 'a') as fizzOut:
         fizzOut.write("NC='\\033[0m'\n")
         fizzOut.write("RED='\\033[1;31m'\n")
         fizzOut.write("GREEN='\\033[1;32m'\n")
@@ -85,7 +85,8 @@ def generate():
         fizzOut.write("NRERR=87\n")
         fizzOut.write("\n")
         fizzOut.write("if ! $(sudo -l &> /dev/null); then\n")
-        fizzOut.write("\techo -e \"${RED}[!]${NC} exit (${NRERR}): elevated privileges required\"\n")
+        fizzOut.write("\techo -e \"${RED}[!]${NC} exit (${NRERR}): " +
+            "elevated privileges required\"\n")
         fizzOut.write("\texit $NRERR\n")
         fizzOut.write("fi\n")
         fizzOut.write("\n")
@@ -94,7 +95,7 @@ def generate():
         fizzOut.write("     / ____/  _/__  /__  /	${CYAN}copyright (c)${NC}\n")
         fizzOut.write("    / /_   / /   / /  / / 	${CYAN}2024 axiom${NC}\n")
         fizzOut.write("   / __/ _/ /   / /__/ /__	${RED}no warranty${NC}\n")
-        fizzOut.write("  /_/   /___/  /____/____/	${PURPLE}v0.1.3${NC}\n")
+        fizzOut.write("  /_/   /___/  /____/____/	${PURPLE}v0.1.4${NC}\n")
         fizzOut.write("\n")
         fizzOut.write("───────────────────────────────────────────────\"\n")
         fizzOut.write("\n")
@@ -104,7 +105,10 @@ def generate():
             count = 0
             for _ in data["data"][1][key]:
                 if data["data"][1][key][count]["active"]:
-                    fizzOut.write("echo -e \"${GREEN}[+]${NC} Installing: ${BLUE}" + data["data"][1][key][count]["name"] + ":${NC}\"\n")
+                    fizzOut.write("echo -e \"${GREEN}[+]${NC} " +
+                        "Installing: ${BLUE}" + 
+                        data["data"][1][key][count]["name"]
+                         + ":${NC}\"\n")
                     for cmd in data["data"][1][key][count]["exec"]:
                         fizzOut.write(cmd + "\n")
                 count += 1
@@ -121,7 +125,8 @@ def getOptions(section):
         temp = ""
         tabbing = "\t"
         if count < dataRange:
-            temp = "  " + opt(GREEN, selectedData[count]["name"], selectedData[count]["active"])
+            temp = "  " + opt(GREEN, selectedData[count]["name"], \
+                selectedData[count]["active"])
             if len(selectedData[count]["name"]) <= 7:
                 tabbing += "\t"
         else:
@@ -215,7 +220,11 @@ def mainMenu():
     print("\n───────────────────────────────────────────────")
     answer = str(input("\n >> ")).lower()
     if answer in ("?", "help"):
-        helpMenu("help", "welcome to fizz, the pop!_os desktop provisioning/configuration wizard. from the main menu, enter 2 to begin configuring your installation. if you already have a valid configuration file (config.json) within the fizz directory, enter 1 to begin.", "fizzmainmenu")
+        helpMenu("help", "welcome to fizz, the pop!_os desktop provisioning" +
+            "/configuration wizard. from the main menu, enter 2 to begin " +
+            "configuring your installation. if you already have a valid " +
+            "configuration file (config.json) within the fizz directory" +
+            ", enter 1 to begin.", "fizzmainmenu")
     elif answer in ("x", "quit", "exit"):
         cleanup()
         return
@@ -268,13 +277,15 @@ def optMenu(sect):
         count = 0
         while count < dataRange:
             if answer == data["data"][1][sect][count]["name"]:
-                data["data"][1][sect][count]["active"] = not data["data"][1][sect][count]["active"]
+                stat = data["data"][1][sect][count]["active"]
+                data["data"][1][sect][count]["active"] = not stat
                 write()
                 break
-            elif answer == "?" + data["data"][1][sect][count]["name"]:
+            if answer == "?" + data["data"][1][sect][count]["name"]:
                 tempCount = count
                 count = dataRange  # prevent further iteration
-                helpMenu(data["data"][1][sect][tempCount]["name"], data["data"][1][sect][tempCount]["desc"], sect)
+                helpMenu(data["data"][1][sect][tempCount]["name"], \
+                    data["data"][1][sect][tempCount]["desc"], sect)
                 return
             count += 1
         optMenu(sect)

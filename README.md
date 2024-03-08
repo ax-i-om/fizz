@@ -2,7 +2,7 @@
     <a><img src="./images/icon.png" width=200 height="200"></a>
     <h1 align="center">Fizz</h1>
     <p align="center">
-        <a><img src="https://img.shields.io/badge/version-0.1.3-blue.svg" alt="v0.1.3"></a>
+        <a><img src="https://img.shields.io/badge/version-0.1.4-blue.svg" alt="v0.1.4"></a>
         <a href="https://app.deepsource.com/gh/ax-i-om/fizz/" target="_blank"><img alt="DeepSource" title="DeepSource" src="https://app.deepsource.com/gh/ax-i-om/fizz.svg/?label=active+issues&show_trend=true"/></a><br>
         Pop!_OS Configuration Wizard<br>
     </p>
@@ -28,11 +28,11 @@ Fizz is a simple utility for generating bash scripts that automate the provision
 Fizz comes AS IS with NO WARRANTY and NO GUARANTEES. Per the software license and disclaimer, the developers are not liable for any damages that might result from the usage of Fizz.
 
 > [!CAUTION] 
-> Fizz executes commands found within `config.json` with elevated privileges. Ensure that the Fizz utility (`fizz.py`), configuration file (`config.json`) and any generated files (`.fizz`) are trusted, as a tainted version may very well compromise your system. 
+> Fizz executes commands found within `config.json` with elevated privileges. Ensure that the Fizz utility (`fizz.py`), configuration file (`config.json`) and any generated files (`.sh`) are trusted, as a tainted version may very well lead to system compromise
 
 ### Config Checksums
 
-Ensure that the checksums of the configuration file you retrieved from this repository match those display below (MD5, SHA1, SHA256, & SHA512 respectively).
+Ensure that the checksums of the configuration file you retrieved from this repository match those displayed below (MD5, SHA1, SHA256, & SHA512 respectively).
 ```
 918c5019a45120052043fad27d4d42b8  config.json
 59aca58a283955fb3805cfd91594c4d0c0996d18  config.json
